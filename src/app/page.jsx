@@ -17,10 +17,11 @@ export default function HomePage() {
   const router = useRouter();
 
   useEffect(() => {
-    fetch("/api/tasks")
+    if (!user) return;
+    fetch(`/api/tasks?userId=${user.uid}`)
        .then((res) => res.json())
        .then((data) => setTasks(data));
-  }, []);
+  }, [user]);
   useEffect(() => {
     if (!user) {
       router.push('/login'); // Redirect to login if not authenticated

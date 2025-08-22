@@ -3,7 +3,9 @@ import Task from "@/models/Task";
 
 export async function GET(req) {
     await connectDB();
-    const tasks = await Task.find();
+    const { searchParams } = new URL(req.url);
+    const userId = searchParams.get("userId");
+    const tasks = userId ? await Task.find({ userId }) : await Task.find();
     return Response.json(tasks);
 }
 
